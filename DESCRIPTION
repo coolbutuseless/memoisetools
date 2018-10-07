@@ -1,0 +1,18 @@
+Package: memoisetools
+Type: Package
+Title: Tools for Working with Memoise Package
+Version: 0.1.0
+Author: mikefc
+Maintainer: mikefc <mikefc@coolbutuseless.com>
+Description: Tools to work with the memoise package.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+  memoise,
+  digest,
+  pryr,
+  purrr,
+  rlang
+RoxygenNote: 6.1.0
+Suggests: testthat
