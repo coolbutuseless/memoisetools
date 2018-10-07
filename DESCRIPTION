@@ -1,10 +1,10 @@
 Package: memoisetools
 Type: Package
-Title: Tools for Working with Memoise Package
+Title: Additional Caches and Helper Functions for the Memoise Package
 Version: 0.1.0
 Author: mikefc
 Maintainer: mikefc <mikefc@coolbutuseless.com>
-Description: Tools to work with the memoise package.
+Description: A collection of additional caches and helper functions to work alongside the memoise package.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
