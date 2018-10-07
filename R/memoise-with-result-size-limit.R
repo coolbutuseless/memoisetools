@@ -89,3 +89,4 @@ memoise_with_result_size_limit <- function(f, ..., envir = environment(f), cache
 
   memo_f
 }
+

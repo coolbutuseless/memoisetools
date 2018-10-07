@@ -106,23 +106,3 @@ memoise_with_mixed_backend <- function(f, ..., envir = environment(f),
 
 
 
-
-if (FALSE) {
-  r <- memoisetools::memoise_with_mixed_backend(
-    rnorm,
-    cache1=memoisetools::cache_memory2(),
-    cache2=memoisetools::cache_filesystem2()
-  )
-
-  r(1)
-  head(r(1000))
-  head(r(1001))
-  head(r(1002))
-  head(r(2e5))
-  head(r(2e5))
-
-  get_memoise_info(r)
-
-
-}
-

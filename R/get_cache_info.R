@@ -144,23 +144,3 @@ get_memoise_info <- function(f, verbose=TRUE) {
 }
 
 
-if (FALSE) {
-
-  f <- memoisetools::memoise_with_mixed_backend(rnorm)
-  f(1)
-  f(1)
-  f(2)
-  f(2)
-
-  get_memoise_info(f)
-
-}
-
-
-
-
-
-
-
-
-

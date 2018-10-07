@@ -95,7 +95,7 @@ cache_filesystem2 <- function(path = tempdir(), algo = "xxhash64", compress=TRUE
       }
     } else {
       if (verbose) {
-        message("cache_filesystem2: No objects in cache exceeded he expiry age")
+        message("cache_filesystem2: No objects in cache exceeded the expiry age")
       }
     }
   }
@@ -127,36 +127,6 @@ cache_filesystem2 <- function(path = tempdir(), algo = "xxhash64", compress=TRUE
     keys    = function() list.files(path)
   )
 }
-
-
-
-
-if (FALSE) {
-
-  library(memoise)
-  library(memoisetools)
-  tmp <- tempdir()
-  r <- memoisetools::memoise_with_result_size_limit(rnorm, cache = cache_filesystem2(path=tempdir()))
-  r(1)
-  r(2)
-  r(3)
-  r(4)
-  Sys.sleep(2)
-  r(5)
-  r(6)
-  get_memoise_info(r)
-
-  r(1)
-  get_memoise_info(r)
-  expire_cache(r, 10, verbose=TRUE)
-  get_memoise_info(r)
-}
-
-
-
-
-
-
 
 
 

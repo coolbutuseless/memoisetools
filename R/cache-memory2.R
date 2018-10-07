@@ -78,7 +78,7 @@ cache_memory2 <- function(algo = "xxhash64") {
       }
     } else {
       if (verbose) {
-        message("cache_memory2: No objects in cache exceeded he expiry age")
+        message("cache_memory2: No objects in cache exceeded the expiry age")
       }
     }
   }
@@ -103,17 +103,6 @@ cache_memory2 <- function(algo = "xxhash64") {
     keys    = function() ls(cache)
   )
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
