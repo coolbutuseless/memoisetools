@@ -22,9 +22,26 @@ memoisetools
 `memoisetools` is a collection of additional caches and helper functions to 
 work alongside the [`memoise` package](https://github.com/r-lib/memoise).
 
-This package was started from a need to have an in-memory cache that did 
-not store results over a given size.
 
+This package introduces new caches, new `memoise()` alternatives and functions
+for interrogating caches and expiring old objects from a cache.
+
+* New caches:
+    * `cache_filesystem2()` - with object timestamping, compression 
+      of objects by default, and expiration of results not accessed for a certain time.
+    * `cache_memory2()` - with object timestamping, faster `xxhash64`
+      used by default, and expiration of results not accessed for a certain time.
+* New `memoise::memoise()` alternatives
+    * `memoise_with_result_size_limit()` - only store results below a certain 
+      size in the cache
+    * `memoise_with_mixed_backend()` - have 2 caches in a memoised function, with 
+      small results saved in the first cache, and large objects saved in the 
+      second cache.
+* Helper functions
+    * `get_memoise_info()` - to print and return information about the cache(s)
+      of a memoised function e.g. how many objects, total size, etc
+    * `expire_cache()` - If the cache for a memoised functionhas a timestamp, 
+      then this function will deleted cached results older than the specified age
 
 
 Installation

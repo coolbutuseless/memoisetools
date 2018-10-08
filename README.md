@@ -6,8 +6,30 @@
 to work alongside the [`memoise`
 package](https://github.com/r-lib/memoise).
 
-This package was started from a need to have an in-memory cache that did
-not store results over a given size.
+This package introduces new caches, new `memoise()` alternatives and
+functions for interrogating caches and expiring old objects from a
+cache.
+
+  - New caches:
+      - `cache_filesystem2()` - with object timestamping, compression of
+        objects by default, and expiration of results not accessed for a
+        certain time.
+      - `cache_memory2()` - with object timestamping, faster `xxhash64`
+        used by default, and expiration of results not accessed for a
+        certain time.
+  - New `memoise::memoise()` alternatives
+      - `memoise_with_result_size_limit()` - only store results below a
+        certain size in the cache
+      - `memoise_with_mixed_backend()` - have 2 caches in a memoised
+        function, with small results saved in the first cache, and large
+        objects saved in the second cache.
+  - Helper functions
+      - `get_memoise_info()` - to print and return information about the
+        cache(s) of a memoised function e.g. how many objects, total
+        size, etc
+      - `expire_cache()` - If the cache for a memoised functionhas a
+        timestamp, then this function will deleted cached results older
+        than the specified age
 
 ## Installation
 
@@ -93,12 +115,12 @@ deleted.
 memoised_rnorm <- memoise::memoise(rnorm, cache = memoisetools::cache_memory2()) 
 
 memoised_rnorm(1) # stored in cache. 
-#> [1] 0.1004836
+#> [1] -0.4321563
 memoised_rnorm(2) # stored in cache
-#> [1] -0.23166245  0.05509139
+#> [1] 0.4748322 0.4878174
 Sys.sleep(1)      # wait a little bit
 memoised_rnorm(1) # recent access to this cached data means it won't be expired
-#> [1] 0.1004836
+#> [1] -0.4321563
 
 # The following expiry will only delete the cached result for `memoised_rnorm(2)`
 # as it has not been read/written in over 1 second
@@ -106,9 +128,9 @@ memoisetools::expire_cache(memoised_rnorm, age_in_seconds = 1, verbose = TRUE)
 #> cache_memory2: Expired 1 objects
 
 memoised_rnorm(1) # this result is still in the cache
-#> [1] 0.1004836
+#> [1] -0.4321563
 memoised_rnorm(2) # this is a fresh result as the cached version was removed
-#> [1] -0.08105522  0.35333986
+#> [1] -0.276410  0.410349
 ```
 
 ## `memoise_with_result_size_limit()`
@@ -132,14 +154,14 @@ cached.
 memoised_rnorm <- memoisetools::memoise_with_result_size_limit(rnorm, result_size_limit = 1000)
 
 memoised_rnorm(1) # small enough to cache
-#> [1] -1.496179
+#> [1] -1.531591
 memoised_rnorm(1) # getting cached result
-#> [1] -1.496179
+#> [1] -1.531591
 
 head(memoised_rnorm(1000)) # too big to be cached
-#> [1] -2.1370419  0.4210523  0.6454660  1.5794866  1.4090496  1.9648221
+#> [1]  1.1455911  1.4399165  1.1183446 -0.9559477  0.4344566  0.2471136
 head(memoised_rnorm(1000)) # so each run produces fresh result
-#> [1] -0.41789871  0.60986783  0.04766711 -0.28903793  0.14967057  0.05247167
+#> [1]  0.63660944  1.87380649 -0.72163613  0.57059968  0.73701482  0.01714318
 ```
 
 ## `memoise_with_mixed_backend()`
@@ -169,5 +191,5 @@ y <- memoised_rnorm(2000)
 
 memoisetools::get_memoise_info(memoised_rnorm)
 #> cache: memory, env: <environment>, algo: xxhash64, bytes: 1648, n: 3, has_timestamp: TRUE, compress: FALSE
-#> cache: filesystem, path: /private/var/folders/5p/78cv9fvn4xn_rbgxpx51q5n80000gn/T/RtmpAu4OLY, algo: xxhash64, bytes: 23259, n: 2, has_timestamp: TRUE, compress: TRUE
+#> cache: filesystem, path: /private/var/folders/5p/78cv9fvn4xn_rbgxpx51q5n80000gn/T/RtmpM6MZnb, algo: xxhash64, bytes: 23284, n: 2, has_timestamp: TRUE, compress: TRUE
 ```
